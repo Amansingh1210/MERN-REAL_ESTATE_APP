@@ -1,0 +1,24 @@
+{
+  "name": "mern-estate",
+  "version": "1.0.0",
+  "description": "Real Estate app using react and tailwind css",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon Backend/index.js",
+    "start": "node Backend/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.2.3",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.2",
+    "nodemon": "^3.1.0",
+    "react-redux": "^9.1.1"
+  }
+}
