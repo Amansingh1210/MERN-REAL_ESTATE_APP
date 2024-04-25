@@ -1,10 +1,11 @@
 import express from 'express' ;
-import { test } from '../controllers/user.controller.js';
+import { test, updateUser } from '../controllers/user.controller.js';
+import { verifyUser } from '../middleware/verifyUser.js';
 
 const router = express.Router();
 
 router.get('/test',test);
-router.get('/updateuser',updateUser);
+router.post('/updateuser/:id',verifyUser, updateUser);
 
 export default router ;
 
