@@ -9,7 +9,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import {updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess} from '../redux/user/userSlice.js'
+import {updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signInFailure, signOutUserSuccess} from '../redux/user/userSlice.js'
 
 function Profile() {
   const { currentUser , loading , error} = useSelector((state) => state.user);
@@ -98,6 +98,21 @@ function Profile() {
       dispatch(deleteUserFailure(error,message));
     }
   };
+
+  const handleSignOut = async () =>{
+    try {
+      dispatch(signOutUserStart());
+      const response = await fetch('/api/auth/signout');
+      const data = response.json();
+      if(data.success === false){
+        dispatch(signInFailure(data.message));
+        return
+      }
+      dispatch(signOutUserSuccess())
+    } catch (error) {
+      dispatch(signInFailure(data.message));
+    }
+  }
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-bold text-center my-7">Profile</h1>
@@ -160,7 +175,7 @@ function Profile() {
         <span onClick={handleDelete} className="text-red-700 font-semibold cursor-pointer">
           Delete
         </span>
-        <span className="text-red-700 font-semibold cursor-pointer">
+        <span onClick={handleSignOut} className="text-red-700 font-semibold cursor-pointer">
           Sign out
         </span>
       </div>
