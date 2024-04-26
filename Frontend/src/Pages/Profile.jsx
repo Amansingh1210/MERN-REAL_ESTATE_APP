@@ -9,7 +9,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import {updateUserStart, updateUserSuccess, updateUserFailure} from '../redux/user/userSlice.js'
+import {updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess} from '../redux/user/userSlice.js'
 
 function Profile() {
   const { currentUser , loading , error} = useSelector((state) => state.user);
@@ -71,13 +71,33 @@ function Profile() {
         dispatch(updateUserFailure(data.message));
         return;
       }
-      console.log(data);
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
     } catch (error) {
       dispatch(updateUserFailure(error,message));
     }
-  }
+  };
+
+  const handleDelete = async (e) =>{
+    try {
+      dispatch(deleteUserStart());
+      const respone = await fetch(`/api/user/delete/${currentUser._id}`,{
+        method: 'DELETE',
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+      });
+      const data  = await respone.json();
+      if(data.success === false){
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+      setUpdateSuccess(true);
+    } catch (error) {
+      dispatch(deleteUserFailure(error,message));
+    }
+  };
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-bold text-center my-7">Profile</h1>
@@ -137,7 +157,7 @@ function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 font-semibold cursor-pointer">
+        <span onClick={handleDelete} className="text-red-700 font-semibold cursor-pointer">
           Delete
         </span>
         <span className="text-red-700 font-semibold cursor-pointer">
