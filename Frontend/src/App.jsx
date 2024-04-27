@@ -7,23 +7,23 @@ import About from './Pages/About'
 import Header from './Components/Header'
 import Signup from './Pages/Signup'
 import PrivateRoute from './Components/PrivateRoute'
-
-
+import CreateListing from './Pages/CreateListing'
 
 
 export default function App() {
   return (
     <BrowserRouter>
-    <Header/>
+      <Header />
       <Routes>
-        <Route path='/' element={<Home />}/>
-        <Route path='/signin' element={<Signin />}/>
-        <Route path='/signup' element={<Signup />}/>
-        <Route path='/about' element={<About />}/>
+        <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/about" element={<About />} />
         <Route element={<PrivateRoute />}>
-          <Route path='/profile' element={<Profile />}/>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/create-listing" element={<CreateListing />} />
         </Route>
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
