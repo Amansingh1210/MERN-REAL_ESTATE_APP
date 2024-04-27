@@ -22,6 +22,8 @@ function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListiingError, setShowListingError] = useState(false);
   const [userListings, setUserListings] = useState([]);
+  const [deleteListingError, setDeleteListingError] = useState(false)
+  const [deleteListingStatus, setDeleteListingStatus] = useState(false);
 
 
   const dispatch = useDispatch();
@@ -124,18 +126,40 @@ function Profile() {
       setShowListingError(false)
       const respone = await fetch(`/api/user/listings/${currentUser._id}`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      }); 
       const data = await respone.json();
+      console.log(data);
+      
       if (data.success === false) {
-        setShowListingError(false)
+        setShowListingError(true)
         return;
       }
+      setShowListingError(data.message);
       setUserListings(data);
     } catch (error) {
       setShowListingError(true);
+    }
+  };
+  
+  const handleListingDelete = async (listingId)=>{
+    try {
+      setDeleteListingError(false);
+      setDeleteListingStatus(false);
+      const respone = await fetch(`/api/listing/delete/${listingId}`, {
+        method: "DELETE",
+      });
+      const data = await respone.json();
+      if (data.success === false) {
+        setDeleteListingError(data.message);
+        return;
+      }
+      setUserListings((prev)=>{
+        prev.filter((listing)=> listing._id !== listingId)
+      });
+      setDeleteListingError(false);
+      setDeleteListingStatus(true)
+    } catch (error) {
+      setDeleteListingError(true);
     }
   }
   return (
@@ -230,6 +254,12 @@ function Profile() {
       <p className="text-red-700 mt-5">
         {showListiingError ? "Error showing listings" : ""}
       </p>
+      <p className="text-green-700 mt-5">
+        {deleteListingStatus ? "listing deleted successfully" : ""}
+      </p>
+      <p className="text-red-700 mt-5">
+        {deleteListingError ? "listing not deleted " : ""}
+      </p>
 
       {userListings &&
         userListings.length > 0 &&
@@ -254,7 +284,7 @@ function Profile() {
               <p>{listing.name}</p>
             </Link>
             <div className="flex flex-col items-center">
-              <button className="text-red-700">Delete</button>
+              <button onClick={()=> {handleListingDelete(listing._id)}} className="text-red-700">Delete</button>
               <button className="text-green-700">Edit</button>
             </div>
           </div>
