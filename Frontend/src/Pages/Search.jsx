@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import ListingItem from "../components/ListingItem";
+import ListingItem from "../Components/ListingItem";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -243,11 +243,11 @@ export default function Search() {
             </p>
           )}
 
-          {/* {!loading &&
+          {!loading &&
             listings &&
             listings.map((listing) => (
-            //   <ListingItem key={listing._id} listing={listing} />
-            ))} */}
+              <ListingItem key={listing._id} listing={listing} />
+            ))}
 
           {showMore && (
             <button
