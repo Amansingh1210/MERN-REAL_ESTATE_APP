@@ -128,7 +128,7 @@ function Profile() {
         method: "GET",
       }); 
       const data = await respone.json();
-      console.log(data);
+      // console.log(data);
       
       if (data.success === false) {
         setShowListingError(true)

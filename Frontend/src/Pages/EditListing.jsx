@@ -39,7 +39,7 @@ function EditListing() {
         const respone = await fetch(`/api/listing/getListing/${listingId}`);
         const data = await respone.json();
         if(data.success === false){
-            console.log(data.message);
+            // console.log(data.message);
             return;
         }
         setFormData(data);
@@ -85,7 +85,7 @@ function EditListing() {
         (snapshot) => {
           const Progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${Progress}% done`);
+          // console.log(`Upload is ${Progress}% done`);
         },
         (error) => {
           reject(error);

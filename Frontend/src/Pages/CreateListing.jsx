@@ -28,7 +28,7 @@ function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(formData);
+  // console.log(formData);
 
   const handleImageSubmit = (e) => {
     if(files.length> 0 && files.length + formData.imageUrls.length < 7){
@@ -62,7 +62,7 @@ function CreateListing() {
           "state_changed",
           (snapshot)=>{
             const Progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100 ;
-            console.log(`Upload is ${Progress}% done`);
+            // console.log(`Upload is ${Progress}% done`);
           },
           (error)=>{
             reject(error);
